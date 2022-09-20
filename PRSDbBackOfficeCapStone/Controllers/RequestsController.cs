@@ -72,10 +72,9 @@ namespace PRSDbBackOfficeCapStone.Controllers
 
             return NoContent();
         }
-        // PUT: api/Requests/approve/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // PUT: api/Requests/approve/{id}
         [HttpPut("approve/{id}")]
-        public async Task<IActionResult> ForceApprove(int id)
+        public async Task<ActionResult<Request>> ForceApprove(int id)
         {
          Request? targ = await _context.Requests.FindAsync(id);
             if (targ is null)       //If the id doesn't match with one in the database
@@ -85,10 +84,34 @@ namespace PRSDbBackOfficeCapStone.Controllers
             targ.Status = "Approved";
             _context.Entry(targ).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return Ok();
+            var response= await _context.Requests.FindAsync(id);
+            if(response is null)
+            {
+                return NotFound();
+            }
+            return response;
             
         }
-        
+        // PUT : api/Requests/deny/{id}
+        [HttpPut("deny/{id}")]
+        public async Task<ActionResult<Request>> ForceDeny(int id)
+        {
+            Request? targ = await _context.Requests.FindAsync(id);
+            if (targ is null)       //If the id doesn't match with one in the database
+            {
+                return NotFound();
+            }
+            targ.Status = "DENIED";
+            _context.Entry(targ).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            var response = await _context.Requests.FindAsync(id);
+            if(response is null)
+            {
+                return NotFound();
+            }
+            return response;
+
+        }
         // POST: api/Requests
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
