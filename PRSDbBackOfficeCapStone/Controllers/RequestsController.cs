@@ -41,7 +41,19 @@ namespace PRSDbBackOfficeCapStone.Controllers
 
             return request;
         }
+        // GET: api/Requests/reviews/{userId}
+        [HttpGet("reviews/{userid}")]
+        public async Task<IEnumerable<Request>>? GetReviews(int userid)
+        {
+            List<Request> requests = await _context.Requests.ToListAsync();
 
+            var filteredRequests =from request in requests
+                                   join user in _context.Users on request.UserId equals user.Id
+                                   where userid != request.UserId & request.Status == "Review"
+                                   select request;
+            return filteredRequests;
+          
+        }
         // PUT: api/Requests/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
