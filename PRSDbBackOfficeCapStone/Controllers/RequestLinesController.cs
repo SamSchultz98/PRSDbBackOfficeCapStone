@@ -103,5 +103,12 @@ namespace PRSDbBackOfficeCapStone.Controllers
         {
             return _context.RequestLines.Any(e => e.Id == id);
         }
+
+
+
+        private void RecalculateRequestTotal(int requestid)
+        {
+
+        }
     }
 }
