@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using PRSDbBackOfficeCapStone.Models;
 
 namespace PRSDbBackOfficeCapStone.Controllers
@@ -71,7 +72,23 @@ namespace PRSDbBackOfficeCapStone.Controllers
 
             return NoContent();
         }
-
+        // PUT: api/Requests/approve/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("approve/{id}")]
+        public async Task<IActionResult> ForceApprove(int id)
+        {
+         Request? targ = await _context.Requests.FindAsync(id);
+            if (targ is null)       //If the id doesn't match with one in the database
+            {
+                return NotFound();
+            }
+            targ.Status = "Approved";
+            _context.Entry(targ).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return Ok();
+            
+        }
+        
         // POST: api/Requests
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
