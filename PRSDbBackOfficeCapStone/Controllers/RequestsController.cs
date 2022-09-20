@@ -84,6 +84,27 @@ namespace PRSDbBackOfficeCapStone.Controllers
 
             return NoContent();
         }
+        // PUT: api/Requests/review/{id}
+        [HttpPut("review/{id}")]
+        public async Task<ActionResult<Request>> Review(int id)
+        {
+            Request? request = await _context.Requests.FindAsync(id);
+            if (request is null)
+            {
+                return NotFound();
+            }
+            if (request.Total <= 50)
+            {
+                request.Status = "APPROVED";
+            }
+            if (request.Total > 50)
+            {
+                request.Status = "Review";
+            }
+            _context.Entry(request).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return await _context.Requests.FindAsync(request.Id);
+        }
         // PUT: api/Requests/approve/{id}
         [HttpPut("approve/{id}")]
         public async Task<ActionResult<Request>> ForceApprove(int id)
