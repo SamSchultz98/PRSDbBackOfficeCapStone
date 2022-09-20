@@ -40,7 +40,26 @@ namespace PRSDbBackOfficeCapStone.Controllers
 
             return user;
         }
+        // GET: api/Users/{Username}/{Password}
+        [HttpGet("{Username}/{Password}")]                  //Allows a user to get their account via username and password
+        public async Task<ActionResult<User>> UserLogin(string Username, string Password)
+        {
+            List<User> users = await _context.Users.ToListAsync();
 
+            //Filtering the list by the entered username and password
+            var target = from Tu in users
+                         where Tu.Username == Username && Tu.Password == Password
+                         select Tu;
+            //Pulling the one and only user out of the list to display 
+            User? targetReal= target.FirstOrDefault();
+
+            if (targetReal is null)
+            {
+                return NotFound();
+            }
+            return targetReal;     
+            
+        }
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
