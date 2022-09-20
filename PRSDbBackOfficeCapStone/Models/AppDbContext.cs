@@ -11,6 +11,7 @@ namespace PRSDbBackOfficeCapStone.Models
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Request> Requests { get; set; }
+        public DbSet<RequestLine> RequestLines { get; set; }
 
 
 
