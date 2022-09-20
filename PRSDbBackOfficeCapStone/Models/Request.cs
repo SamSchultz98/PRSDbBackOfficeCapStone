@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PRSDbBackOfficeCapStone.Models
@@ -29,6 +30,7 @@ namespace PRSDbBackOfficeCapStone.Models
         public int UserId { get; set; }                     //Fk to User
         public virtual User? User { get; set; }
 
+        public virtual Collection<RequestLine>? RequestLines { get; set; }
 
     }
 }
