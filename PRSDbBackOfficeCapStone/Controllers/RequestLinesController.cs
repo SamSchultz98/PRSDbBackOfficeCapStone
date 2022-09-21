@@ -99,28 +99,26 @@ namespace PRSDbBackOfficeCapStone.Controllers
             await RecalculateRequestTotal(requestLine.RequestId);
             return NoContent();
         }
-        private async Task<decimal> RecalculateRequestTotal(int requestid)
+        private async Task RecalculateRequestTotal(int requestid)
         {
             Request? requestTarg = await _context.Requests.FindAsync(requestid);
             if (requestTarg is null)
             {
                 throw new Exception("requestTarg is null");
             }
-           
-            var Linetotal = from r in _context.RequestLines
-                            join request in _context.Requests on r.RequestId equals request.Id
-                            join prod in _context.Products on r.ProductId equals prod.Id
-                            where requestid == r.RequestId
-                            select new
-                            {
-                                total = prod.Price * r.Quantity
 
-                            };
-            var Total = Linetotal.Sum(x => x.total);
-            requestTarg.Total = Total;
-            _context.Entry(requestTarg).State = EntityState.Modified;
+            requestTarg.Total = (from r in _context.RequestLines
+                                 join prod in _context.Products on r.ProductId equals prod.Id
+                                 where requestid == r.RequestId
+                                 select new
+                                 {
+                                     total = prod.Price * r.Quantity
+
+                                 }).Sum(x => x.total);
+
+         
             await _context.SaveChangesAsync();
-            return Total;
+            
         }
        
 
