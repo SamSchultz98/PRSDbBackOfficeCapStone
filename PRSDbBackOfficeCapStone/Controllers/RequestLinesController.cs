@@ -101,23 +101,12 @@ namespace PRSDbBackOfficeCapStone.Controllers
         }
         private async Task<decimal> RecalculateRequestTotal(int requestid)
         {
-
-            //List<Request> requestList = await _context.Requests.ToListAsync();
-            //List<RequestLine> rLines = await _context.RequestLines.ToListAsync();
             Request? requestTarg = await _context.Requests.FindAsync(requestid);
             if (requestTarg is null)
             {
                 throw new Exception("requestTarg is null");
             }
-            //var currentTotal = requestTarg.Total;
-            //Trying to do it all under one query 
-            //var Target = from r in rLines                                                       //Getting Quantity from RequestLines
-            //             join requests in _context.Requests on r.RequestId equals requests.Id   //Getting Total from requests
-            //             join product in _context.Products on r.ProductId equals product.Id     //Getting price from products
-            //             where requests.Id == requestid && r.RequestId == requestid
-            //             select requests.Total=product.Price*r.Quantity;                        //Total = price * quantity
-
-            //requestTarg.Total = Target.FirstOrDefault();
+           
             var Linetotal = from r in _context.RequestLines
                             join request in _context.Requests on r.RequestId equals request.Id
                             join prod in _context.Products on r.ProductId equals prod.Id
@@ -133,58 +122,7 @@ namespace PRSDbBackOfficeCapStone.Controllers
             await _context.SaveChangesAsync();
             return Total;
         }
-        //    //Getting the price by joining the product table
-        //    var price = from r in rLines
-        //                join product in _context.Products on r.ProductId equals product.Id
-        //                where r.RequestId == requestid
-        //                select r.Product.Price;
-
-
-        //    ////Getting each piece of the equation on their own
-        //    //var price = from prod in _context.Products
-        //    //             join r in rLines on prod.Id equals r.ProductId
-        //    //             where r.RequestId == requestid
-        //    //             select prod;
-
-        //   //Was null?
-        //    var quantity = from r in rLines
-        //                   where r.RequestId == requestid
-        //                   select r;
-           
-            
-        //    var rPrice = price.FirstOrDefault();
-
-        //    var rQuantity = quantity.FirstOrDefault();
-
-        //    if (requestTarg is not null )
-        //    {
-        //        if (currentTotal > 0 && requestTarg.Id == requestid)
-        //        {
-        //            if (rQuantity is null)
-        //            {
-        //                requestTarg.Total = (rPrice * 0);
-        //            }
-        //            if (rQuantity is not null)
-        //            {
-                        
-        //                requestTarg.Total = (currentTotal + (rPrice * rQuantity.Quantity));
-        //            }
-        //        }
-        //        if (currentTotal == 0)
-        //        {
-                    
-        //            if (rQuantity is not null)
-        //            {
-        //                requestTarg.Total = rPrice * rQuantity.Quantity;
-        //            }
-        //        }
-
-
-        //    }
-        //    _context.Entry(requestTarg).State = EntityState.Modified;
-        //    await _context.SaveChangesAsync();
-        //    //Ok();
-        //}
+       
 
         private bool RequestLineExists(int id)
         {
