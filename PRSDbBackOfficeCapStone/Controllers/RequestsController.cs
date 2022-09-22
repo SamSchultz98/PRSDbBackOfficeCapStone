@@ -114,7 +114,7 @@ namespace PRSDbBackOfficeCapStone.Controllers
             {
                 return NotFound();
             }
-            targ.Status = "Approved";
+            targ.Status = "APPROVED";
             _context.Entry(targ).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             var response= await _context.Requests.FindAsync(id);
