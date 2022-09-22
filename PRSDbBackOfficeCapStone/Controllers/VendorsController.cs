@@ -48,7 +48,7 @@ namespace PRSDbBackOfficeCapStone.Controllers
             var targVendor = await _context.Vendors.FindAsync(vendorId);
             
 
-            var poLineQ = from v in _context.Vendors
+           var poLineQ = from v in _context.Vendors
                       join prod in _context.Products
                       on v.Id equals prod.VendorId   
                       join Rl in _context.RequestLines
