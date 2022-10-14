@@ -31,24 +31,25 @@ namespace PRSDbBackOfficeCapStone.Controllers
 
         // GET: api/Requests/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Request>>? GetRequest(int id)
+        public async Task<IEnumerable<Request>>? GetRequest(int id)
         {
             var request = await _context.Requests.FindAsync(id);
             List<Request> requests = await _context.Requests.ToListAsync();
-            Collection<RequestLine> lines = new Collection<RequestLine>();
-            
-            
+
+
             if (request == null)
             {
-                return NotFound();
+                return (IEnumerable<Request>)NotFound();
             }
-            var requestWithLines = from rl in lines
-                                   join r in requests on rl.RequestId equals r.Id
-                                   where r.Id == id && rl.RequestId == r.Id
-                                   select r;
+            var requestWithLines = from rq in requests
+                                   join rql in _context.RequestLines on rq.Id equals rql.RequestId
+                                   where id == rq.Id
+                                   select rq;
+                                   
+
             
             
-            return request;
+            return (IEnumerable<Request>)requestWithLines;
         }
         // GET: api/Requests/reviews/{userId}
         [HttpGet("reviews/{userid}")]
