@@ -51,6 +51,7 @@ namespace PRSDbBackOfficeCapStone.Controllers
             
             return (IEnumerable<Request>)requestWithLines;
         }
+
         // GET: api/Requests/reviews/{userId}
         [HttpGet("reviews/{userid}")]
         public async Task<IEnumerable<Request>>? GetReviews(int userid)
@@ -64,6 +65,7 @@ namespace PRSDbBackOfficeCapStone.Controllers
             return filteredRequests;
           
         }
+
         // PUT: api/Requests/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -94,6 +96,7 @@ namespace PRSDbBackOfficeCapStone.Controllers
 
             return NoContent();
         }
+
         // PUT: api/Requests/review/{id}
         [HttpPut("review/{id}")]
         public async Task<ActionResult<Request>> Review(int id)
@@ -115,6 +118,7 @@ namespace PRSDbBackOfficeCapStone.Controllers
             await _context.SaveChangesAsync();
             return await _context.Requests.FindAsync(request.Id);
         }
+
         // PUT: api/Requests/approve/{id}
         [HttpPut("approve/{id}")]
         public async Task<ActionResult<Request>> ForceApprove(int id)
@@ -135,6 +139,7 @@ namespace PRSDbBackOfficeCapStone.Controllers
             return response;
             
         }
+
         // PUT : api/Requests/deny/{id}
         [HttpPut("deny/{id}")]
         public async Task<ActionResult<Request>> ForceDeny(int id)
@@ -155,6 +160,7 @@ namespace PRSDbBackOfficeCapStone.Controllers
             return response;
 
         }
+
         // POST: api/Requests
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]

@@ -14,7 +14,7 @@ namespace PRSDbBackOfficeCapStone.Models
         public int RequestId { get; set; }//FK to Request
 
         [JsonIgnore]
-        public virtual Request? Request { get; set; }
+        public virtual Request? Request { get; set; }       //BackReference
 
 
 

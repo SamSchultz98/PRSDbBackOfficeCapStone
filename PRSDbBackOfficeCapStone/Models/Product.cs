@@ -10,7 +10,7 @@ namespace PRSDbBackOfficeCapStone.Models
         public int Id { get; set; }
 
         [StringLength(30)]
-        public string PartNbr { get; set; }
+        public string PartNbr { get; set; }     //Unique
 
         [StringLength(30)]
         public string Name { get; set; }

@@ -30,7 +30,7 @@ namespace PRSDbBackOfficeCapStone.Models
         public int UserId { get; set; }                     //Fk to User
         public virtual User? User { get; set; }
 
-        public virtual Collection<RequestLine>? RequestLines { get; set; }
+        public virtual Collection<RequestLine>? RequestLines { get; set; }  //Collection of requestline to display a requestline connected to the request
 
     }
 }

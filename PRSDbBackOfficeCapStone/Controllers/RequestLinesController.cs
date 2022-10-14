@@ -99,7 +99,9 @@ namespace PRSDbBackOfficeCapStone.Controllers
             await RecalculateRequestTotal(requestLine.RequestId);
             return NoContent();
         }
-        private async Task RecalculateRequestTotal(int requestid)
+
+       
+        private async Task RecalculateRequestTotal(int requestid)       //Recalculate the total for request
         {
             Request? requestTarg = await _context.Requests.FindAsync(requestid);
             if (requestTarg is null)

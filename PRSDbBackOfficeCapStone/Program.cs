@@ -4,11 +4,14 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 var connStrKey = "PrsDb";    //If Debug
 #if DEBUG
-connStrKey = "Main"; //If Release
+connStrKey = "Main";        //If Release
 #endif
+
+
 // Add services to the container.
 
 builder.Services.AddControllers();
+
 //Getting the connection string
 builder.Services.AddDbContext<AppDbContext>(x =>
 {
