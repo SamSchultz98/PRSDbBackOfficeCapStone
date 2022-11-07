@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PRSDbBackOfficeCapStone.Models;
+using PRSDbBackOfficeCapStone.Controllers;
 
 namespace PRSDbBackOfficeCapStone.Controllers
 {
@@ -19,12 +20,18 @@ namespace PRSDbBackOfficeCapStone.Controllers
         {
             _context = context;
         }
+        
 
         // GET: api/Products
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            return await _context.Products.ToListAsync();
+            var products= await _context.Products.ToListAsync();
+            foreach (var product in products)
+            {
+                product.Vendor = await _context.Vendors.FindAsync(product.VendorId);
+            }
+            return products;
         }
 
         // GET: api/Products/5
@@ -32,7 +39,7 @@ namespace PRSDbBackOfficeCapStone.Controllers
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);
-
+            product.Vendor = await _context.Vendors.FindAsync(product.VendorId);
             if (product == null)
             {
                 return NotFound();
@@ -50,7 +57,6 @@ namespace PRSDbBackOfficeCapStone.Controllers
             {
                 return BadRequest();
             }
-
             _context.Entry(product).State = EntityState.Modified;
 
             try
