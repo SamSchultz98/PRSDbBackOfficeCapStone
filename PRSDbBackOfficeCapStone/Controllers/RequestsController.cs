@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol;
 using PRSDbBackOfficeCapStone.Models;
+using PRSDbBackOfficeCapStone.Controllers;
 
 namespace PRSDbBackOfficeCapStone.Controllers
 {
@@ -26,7 +27,13 @@ namespace PRSDbBackOfficeCapStone.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Request>>> GetRequests()
         {
-            return await _context.Requests.ToListAsync();
+
+            var requests= await _context.Requests.ToListAsync();
+            foreach (var request in requests)
+            {
+                request.User = await _context.Users.FindAsync(request.UserId);
+            }
+            return requests;
         }
 
         // GET: api/Requests/5
@@ -36,6 +43,12 @@ namespace PRSDbBackOfficeCapStone.Controllers
             var request = await _context.Requests.FindAsync(id);
             List<Request> requests = await _context.Requests.ToListAsync();
 
+            foreach(var req in requests)
+            {
+                req.User = await _context.Users.FindAsync(request.UserId);
+                
+
+            }
 
             if (request == null)
             {

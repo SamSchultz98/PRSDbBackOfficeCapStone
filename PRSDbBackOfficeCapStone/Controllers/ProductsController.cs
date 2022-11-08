@@ -39,11 +39,11 @@ namespace PRSDbBackOfficeCapStone.Controllers
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);
-            product.Vendor = await _context.Vendors.FindAsync(product.VendorId);
             if (product == null)
             {
                 return NotFound();
             }
+            product.Vendor = await _context.Vendors.FindAsync(product.VendorId);
 
             return product;
         }
