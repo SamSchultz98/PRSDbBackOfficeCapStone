@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PRSDbBackOfficeCapStone.Models;
+using PRSDbBackOfficeCapStone.Controllers;
 
 namespace PRSDbBackOfficeCapStone.Controllers
 {
@@ -24,7 +25,13 @@ namespace PRSDbBackOfficeCapStone.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RequestLine>>> GetRequestLines()
         {
-            return await _context.RequestLines.ToListAsync();
+            
+           var rls = await _context.RequestLines.ToListAsync();
+            foreach(var rl in rls)
+            {
+                rl.Product = await _context.Products.FindAsync(rl.ProductId);
+            }
+            return rls;
         }
 
         // GET: api/RequestLines/5
@@ -37,6 +44,7 @@ namespace PRSDbBackOfficeCapStone.Controllers
             {
                 return NotFound();
             }
+            requestLine.Product= await _context.Products.FindAsync(requestLine.ProductId);
 
             return requestLine;
         }
