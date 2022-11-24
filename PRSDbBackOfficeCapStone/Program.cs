@@ -2,10 +2,8 @@ using PRSDbBackOfficeCapStone.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-var connStrKey = "PrsDb";    //If Debug
-#if DEBUG
-connStrKey = "Main";        //If Release
-#endif
+var connStrKey = "Main";    //If Debug
+
 
 
 // Add services to the container.
